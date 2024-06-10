@@ -5,11 +5,21 @@ import ProductProporties from './components/ProductProporties.vue'
 import CardTitle from './components/CardTitle.vue'
 import ColorPreference from './components/ColorPreference.vue'
 import CardCounter from './components/CardCounter.vue'
+import ReviewsContainer from './components/ReviewsContainer.vue'
+import AddReview from './components/AddReview.vue'
 import { ref } from 'vue'
 
 let productNumber = ref<number>(0)
 
 const details: Array<string> = ['50% cotton', '30% wool', '20% polyester']
+
+interface reviewPost {
+  name: string
+  review: string
+  rating: number
+}
+
+const reviews = ref<Array<reviewPost>>([])
 
 const variants = [
   { id: 2234, color: 'green', image: '@/assets/images/socks_green.jpg' },
@@ -35,6 +45,11 @@ const selectedImage = (image: string) => {
   console.log('selectedImage', image)
   imageType.value = image
 }
+
+const AddReviewHandler = (reviewss: Array<reviewPost>) => {
+  reviews.value = reviewss
+  console.log('AddReviewHandler', reviewss)
+}
 </script>
 
 <template>
@@ -53,8 +68,9 @@ const selectedImage = (image: string) => {
         :stock="stock"
         @selectedImage="selectedImage"
       />
-
-      <ColorPreference />
     </div>
   </div>
+
+  <ReviewsContainer :reviews="reviews" />
+  <AddReview :reviews="reviews" @reviewButtonClicked="AddReviewHandler" />
 </template>
