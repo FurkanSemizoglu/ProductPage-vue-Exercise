@@ -12,19 +12,28 @@ let productNumber = ref<number>(0)
 const details: Array<string> = ['50% cotton', '30% wool', '20% polyester']
 
 const variants = [
-  { id: 2234, color: 'green', image: '../assets/images/socks_green.jpg' },
-  { id: 2235, color: 'blue', image: '../assets/images/socks_blue.jpg' }
+  { id: 2234, color: 'green', image: '@/assets/images/socks_green.jpg' },
+  { id: 2235, color: 'blue', image: '@/assets/images/socks_blue.jpg' }
 ]
 
+const stock = ref<number>(5)
+
 const increaseProduct = () => {
-  productNumber.value++
+  if (stock.value > 0) {
+    productNumber.value++
+    stock.value--
+  }
+
   console.log(productNumber)
 }
 
-let Image = ref<string>('../assets/images/socks_green.jpg')
+let Image = ref<string>('@/assets/images/socks_green.jpg')
+
+let imageType = ref<string>('green')
+
 const selectedImage = (image: string) => {
   console.log('selectedImage', image)
-  Image.value = image
+  imageType.value = image
 }
 </script>
 
@@ -34,13 +43,14 @@ const selectedImage = (image: string) => {
 
   <div class="product-display">
     <div class="product-container">
-      <ImageCard :Image="Image" />
+      <ImageCard :imageType="imageType" />
       <!--   <CardTitle /> -->
-
+      <!--  <img :src="imgSrc" :alt="Image" /> -->
       <ProductProporties
         @buttonClicked="increaseProduct"
         :details="details"
         :variants="variants"
+        :stock="stock"
         @selectedImage="selectedImage"
       />
 

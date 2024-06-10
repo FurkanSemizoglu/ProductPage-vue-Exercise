@@ -14,6 +14,7 @@ interface variantsProps {
 interface Props {
   details: Array<string>
   variants: Array<variantsProps>
+  stock: number
 }
 
 let selectedVariant = ref<number>(1) // 1 = green, 2 = blue
@@ -52,7 +53,7 @@ const updateVariant = (id: number) => {
       console.log('variant', variant)
       selectedVariant.value = id
 
-      emits('selectedImage', variant.image)
+      emits('selectedImage', variant.color)
     }
   })
 }
@@ -61,8 +62,8 @@ const updateVariant = (id: number) => {
 <template>
   <div class="product-info">
     <CardTitle />
-    <p>In Stock</p>
-    <p>out of Stock</p>
+    <p v-if="stock > 0">In Stock {{ stock }}</p>
+    <p v-else>out of Stock</p>
 
     <ul>
       <li v-for="detail in props.details">{{ detail }}</li>
