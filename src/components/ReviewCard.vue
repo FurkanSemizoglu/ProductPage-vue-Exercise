@@ -1,0 +1,1 @@
+<template>review card</template>
